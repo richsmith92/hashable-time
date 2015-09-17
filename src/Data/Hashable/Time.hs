@@ -1,7 +1,11 @@
 {-# LANGUAGE CPP #-}
 {-# OPTIONS_GHC -fno-warn-orphans #-}
-
-module Data.Hashable.Time () where
+-- |
+-- Module      : Data.Hashable.Time
+-- Description : Hashable instances for Data.Time types
+-- License     : BSD3
+-- Maintainer  : Alexey Karakulov <ankarakulov@gmail.com>
+module Data.Hashable.Time (Hashable(..)) where
 
 import Data.Fixed
 import Data.Hashable (Hashable(..))
