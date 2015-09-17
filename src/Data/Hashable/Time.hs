@@ -17,9 +17,12 @@ import System.Locale
 
 -- Dependencies
 
+-- ! (>=1.2.4) ~ <1.2.4 ~ <= 1.2.3
+#if !MIN_VERSION_hashable(1,2,4)
 -- https://github.com/tibbe/hashable/pull/101
 instance Hashable (Fixed a) where
    hashWithSalt salt (MkFixed i) = hashWithSalt salt i
+#endif
 
 -- Data.Time.Clock
 
