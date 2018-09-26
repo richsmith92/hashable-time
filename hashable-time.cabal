@@ -1,5 +1,5 @@
 name:                hashable-time
-version:             0.2.0.1
+version:             0.2.0.2
 synopsis:            Hashable instances for Data.Time
 description:
   Hashable instances for types in Data.Time
