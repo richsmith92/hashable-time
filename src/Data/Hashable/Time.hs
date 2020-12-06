@@ -7,21 +7,18 @@
 -- Maintainer  : Alexey Karakulov <ankarakulov@gmail.com>
 module Data.Hashable.Time (Hashable(..)) where
 
-import Data.Fixed
 import Data.Hashable (Hashable(..))
-import Data.Time
+import Data.Time.Compat (UniversalTime (..), DiffTime, UTCTime (..),
+                         NominalDiffTime, Day (..), DayOfWeek (..), TimeZone (..),
+                         TimeOfDay (..), LocalTime (..), ZonedTime (..))
+import Data.Time.Calendar.Month.Compat (Month (..))
+import Data.Time.Calendar.Quarter.Compat (Quarter (..), QuarterOfYear (..))
 
-#if !MIN_VERSION_time(1,5,0)
-import System.Locale
-#endif
-
--- Dependencies
-
--- ! (>=1.2.4) ~ <1.2.4 ~ <= 1.2.3
-#if !MIN_VERSION_hashable(1,2,4)
--- https://github.com/tibbe/hashable/pull/101
-instance Hashable (Fixed a) where
-   hashWithSalt salt (MkFixed i) = hashWithSalt salt i
+-- time-compat doesn't redefine TimeLocale
+#ifdef MIN_VERSION_old_locale
+import System.Locale (TimeLocale (..))
+#else
+import Data.Time.Format.Compat (TimeLocale (..))
 #endif
 
 -- Data.Time.Clock
@@ -43,6 +40,18 @@ instance Hashable NominalDiffTime where
 
 instance Hashable Day where
   hashWithSalt salt (ModifiedJulianDay d) = hashWithSalt salt d
+
+instance Hashable Month where
+  hashWithSalt salt (MkMonth x) = hashWithSalt salt x
+
+instance Hashable Quarter where
+  hashWithSalt salt (MkQuarter x) = hashWithSalt salt x
+
+instance Hashable DayOfWeek where
+  hashWithSalt salt = hashWithSalt salt . fromEnum
+
+instance Hashable QuarterOfYear where
+  hashWithSalt salt = hashWithSalt salt . fromEnum
 
 -- Data.Time.LocalTime
 
